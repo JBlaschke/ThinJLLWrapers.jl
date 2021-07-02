@@ -1,0 +1,4 @@
+name = "ThinJLLWrapers"
+uuid = "569f6cd2-a840-479d-9470-22f99e827c8f"
+authors = ["Johannes Blaschke <jpblaschke@lbl.gov>"]
+version = "0.1.0"
