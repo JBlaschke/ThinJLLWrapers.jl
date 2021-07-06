@@ -4,19 +4,19 @@ using Base.Libc.Libdl
 
 
 """
-    open(lib_path, load_flags)
-    open(lib_path)
+    jll_open(lib_path, load_flags)
+    jll_open(lib_path)
 
 Load the shared library stored in `lib_path` using the `load_flags`. If
 `load_flags` are not supplied, default to  `load_flags = RTLD_LAZY |
 RTLD_DEEPBIND`.
 """
-function open(lib_path, load_flags)
+function jll_open(lib_path, load_flags)
     lib_handle = dlopen(lib_path, load_flags)
     return lib_handle
 end
 
-open(lib_path) = open(lib_path, RTLD_LAZY | RTLD_DEEPBIND)
+jll_open(lib_path) = jll_open(lib_path, RTLD_LAZY | RTLD_DEEPBIND)
 
 
 """
@@ -88,6 +88,6 @@ end
 
 
 
-export open, ensure_path, ensure_jll_path, in_ldpath
+export jll_open, ensure_path, ensure_jll_path, in_ldpath, find_path
 
 end # module
