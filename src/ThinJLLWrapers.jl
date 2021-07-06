@@ -22,14 +22,30 @@ open(lib_path) = open(lib_path, RTLD_LAZY | RTLD_DEEPBIND)
     ensure_path(target::String)
     ensure_path(list_of_targets:Vector{String})
 
+Make sure that the `LD_LIBRARY_PATH` contains the path in `larget`, or a list
+of paths.
+"""
+ensure_path(target::AbstractString) = in(
+    target, split(ENV["LD_LIBRARY_PATH"], ":")
+)
+ensure_path(targets::Vector{T}) where T <:AbstractString = any(map(
+    t->ensure_path(t), targets
+))
+
 
 """
-ensure_path(target::String) = in(target, split(ENV["LD_LIBRARY_PATH"]))
-ensure_path(targets::Vector{String}) = any(
-   map(target->in(target, split(ENV["LD_LIBRARY_PATH"])), targets)
-)
+    ensure_jll_path()
 
+Ensure that the list of paths specified in the `JLL_LIBRARY_PATH` environment
+variable are inlcuded in the `LD_LIBRARY_PATH`.
+"""
+function ensure_jll_path()
+    if in("JLL_LIBRARY_PATH", keys(ENV))
+        return ensure_path(split(ENV["JLL_LIBRARY_PATH"], ":"))
+    end
+    return false
+end
 
-export open
+export open, ensure_path, ensure_jll_path
 
 end # module
