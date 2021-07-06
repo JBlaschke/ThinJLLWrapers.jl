@@ -45,7 +45,7 @@ function ensure_jll_path()
     if in("JLL_LIBRARY_PATH", keys(ENV))
         return ensure_path(split(ENV["JLL_LIBRARY_PATH"], ":"))
     end
-    return true
+    return false
 end
 
 
