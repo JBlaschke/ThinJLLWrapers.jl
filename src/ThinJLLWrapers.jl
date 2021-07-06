@@ -69,6 +69,25 @@ in_ldpath(files::Vector{T}) where T<:AbstractString = all(map(
     t->in_ldpath(t), files
 ))
 
+
+"""
+    find_path(file_name::AbstractString)
+
+Find the path of `file_name` is in `JLL_LIBRARY_PATH`.
+
+"""
+function find_path(file_name::AbstractString)
+    for ld in split(ENV["JLL_LIBRARY_PATH"], ":")
+        lib_path = joinpath(ld, file_name)
+        if isfile(lib_path)
+            return lib_path
+        end
+    end
+    return nothing
+end
+
+
+
 export open, ensure_path, ensure_jll_path, in_ldpath
 
 end # module
